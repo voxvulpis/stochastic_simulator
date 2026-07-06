@@ -1,4 +1,4 @@
-import dataFetcher.FileReader;
+import dataFetcher.DataFile;
 
 
 
@@ -8,11 +8,18 @@ public class App {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         
 
-        Float rand[] = FileReader.readFloatArray(filePath);
+        Float rand[] = DataFile.readFloatArray(filePath);
+
+        Float ts[] = DataFile.getTimeOfServiceFromFloatArray(rand);
 
         // for (Float item : rand) {
             
         //     System.out.println(item);
         // }
+
+
+        for (Float item : ts) {
+            System.out.println(item);
+        }
     }
 }
