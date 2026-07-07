@@ -1,3 +1,4 @@
+import SystemData.SystemInfo;
 import dataFetcher.DataFile;
 
 
@@ -8,18 +9,31 @@ public class App {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         
 
-        Float rand[] = DataFile.readFloatArray(filePath);
+        Double rand[] = DataFile.readFloatArray(filePath);
+        SystemInfo fullInfo = new SystemInfo();
 
-        Float ts[] = DataFile.getTimeOfServiceFromFloatArray(rand);
+        fullInfo.fillTsTec(rand);
+        fullInfo.completeInfo();
+
+
+        // fullInfo.printInfo();
+        fullInfo.printInfoRounded();
+
+        // Float ts[] = DataFile.getTimeOfService(rand);
 
         // for (Float item : rand) {
             
         //     System.out.println(item);
         // }
 
+        // for (int i = 0; i < 10; i++) {
+        //     System.out.println(rand[i]);
+        // }
 
-        for (Float item : ts) {
-            System.out.println(item);
-        }
+        // for (Float item : ts) {
+        //     System.out.println(item);
+        // }
+
+
     }
 }
