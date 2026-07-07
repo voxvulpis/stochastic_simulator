@@ -12,7 +12,7 @@ public class DataFile {
         System.out.println(Paths.get(filePath));
         stringArrayList = Files.readAllLines(Paths.get(filePath));
 
-        for (int i = 0; i < Math.min(2, stringArrayList.size()); i++) {
+        for (int i = 0; i < Math.min(100, stringArrayList.size()); i++) {
             stringArrayList.remove(0);
         }
 

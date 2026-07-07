@@ -4,7 +4,7 @@ import dataFetcher.DataFile;
 
 
 public class App {
-    private static String filePath = "./resources/data/rand.dat";
+    private static String filePath = "./resources/data/";
     public static void main(String[] args) throws Exception {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         
@@ -14,6 +14,11 @@ public class App {
 
         fullInfo.fillTsTec(rand);
         fullInfo.completeInfo();
+
+        //TODO Atualizar Rand para ter 1050 entradas e desconsiderar as 50 primeiras
+        //TODO Implementar repetição com sementes diferentes (130)
+        //TODO Calcular média de médias
+        //TODO Calcular desvio padrão
 
 
         // fullInfo.printInfo();

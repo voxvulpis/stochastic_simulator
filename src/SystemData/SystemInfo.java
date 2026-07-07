@@ -4,20 +4,17 @@ import java.util.ArrayList;
 
 public class SystemInfo {
     private ArrayList<DataStructure> dataStructureArray;
+    private Double serviceMeanTime;
+    private Double queueMeanTime;
+    private Double systemMeanTime;
+    private Double idleMeanTime;
+
 
     public SystemInfo() {
         dataStructureArray = new ArrayList<DataStructure>();
     }
 
     public SystemInfo(ArrayList<SystemData.DataStructure> dataStructure) {
-        dataStructureArray = dataStructure;
-    }
-
-    public ArrayList<DataStructure> getDataStructure() {
-        return dataStructureArray;
-    }
-
-    public void setDataStructure(ArrayList<DataStructure> dataStructure) {
         dataStructureArray = dataStructure;
     }
 
@@ -52,6 +49,23 @@ public class SystemInfo {
             dataStructureArray.get(i).setSystemTime(dataStructureArray.get(i).getServiceEnd() - dataStructureArray.get(i).getArrival());
             dataStructureArray.get(i).setIdleTime(Math.max(0.0, dataStructureArray.get(i).getStart() - dataStructureArray.get(i - 1).getServiceEnd()));
         }
+
+        serviceMeanTime = 0.0;
+        queueMeanTime = 0.0;
+        systemMeanTime = 0.0;
+        idleMeanTime = 0.0;
+
+        for (int i = 0; i < dataStructureArray.size(); i++){
+            serviceMeanTime += dataStructureArray.get(i).getTS();
+            queueMeanTime += dataStructureArray.get(i).getQueueTime();
+            systemMeanTime += dataStructureArray.get(i).getSystemTime();
+            idleMeanTime += dataStructureArray.get(i).getIdleTime();
+        }
+
+        serviceMeanTime /= Double.valueOf(dataStructureArray.size());
+        queueMeanTime /= Double.valueOf(dataStructureArray.size());
+        systemMeanTime /= Double.valueOf(dataStructureArray.size());
+        idleMeanTime /= Double.valueOf(dataStructureArray.size());
     }
 
     public void printInfo(){
@@ -88,5 +102,51 @@ public class SystemInfo {
             );
             i++;
         }
+        System.out.println("\nEstatisticas: "
+            + "\tTempo de Seviço Médio:\t" + (Math.round(serviceMeanTime * 1000.0) / 1000.0)
+            + "\tTempo de Fila Média:\t" + (Math.round(queueMeanTime * 1000.0) / 1000.0)
+            + "\tTempo Médio no Sistema:\t" + (Math.round(systemMeanTime * 1000.0) / 1000.0)
+            + "\tTempo Ocioso Médio:\t" + (Math.round(idleMeanTime * 1000.0) / 1000.0) 
+        );
+    }
+
+    public ArrayList<DataStructure> getDataStructureArray() {
+        return dataStructureArray;
+    }
+
+    public void setDataStructureArray(ArrayList<DataStructure> dataStructureArray) {
+        this.dataStructureArray = dataStructureArray;
+    }
+
+    public Double getServiceMeanTime() {
+        return serviceMeanTime;
+    }
+
+    public void setServiceMeanTime(Double serviceMeanTime) {
+        this.serviceMeanTime = serviceMeanTime;
+    }
+
+    public Double getQueueMeanTime() {
+        return queueMeanTime;
+    }
+
+    public void setQueueMeanTime(Double queueMeanTime) {
+        this.queueMeanTime = queueMeanTime;
+    }
+
+    public Double getSystemMeanTime() {
+        return systemMeanTime;
+    }
+
+    public void setSystemMeanTime(Double systemMeanTime) {
+        this.systemMeanTime = systemMeanTime;
+    }
+
+    public Double getIdleMeanTime() {
+        return idleMeanTime;
+    }
+
+    public void setIdleMeanTime(Double idleMeanTime) {
+        this.idleMeanTime = idleMeanTime;
     }
 }

@@ -2,7 +2,7 @@
 #include<math.h>
 #include<stdio.h>
 
-#define ARRAY_SIZE 2000
+#define ARRAY_SIZE 2100
 
 #define FORMULA (a * (int)result[i-1] + c) % m
 
