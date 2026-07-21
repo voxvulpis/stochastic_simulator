@@ -1,44 +1,26 @@
-import SystemData.SystemInfo;
 import dataFetcher.DataFile;
+import simulation.Simulator;
 
-
-
+//Função Main
 public class App {
-    private static String filePath = "./resources/data/";
+    //Define diretório com arquivos de números randômicos
+    //Arquivos gerados por código em C, como feito em aula
+    //Sementes definidas no arquivo 'keys.data' obtidas da página https://www.math.uchicago.edu/~luis/allprimes.html
+    //Código C compilado e executado a partir do arquivo shell'generate_random_numbers.sh' (Funciona somente em Linux)
+    private static String fileDirecctory = "./resources/data/";
+    //Define o número de servidores no sistema
+    private static Integer servitors = 1;
     public static void main(String[] args) throws Exception {
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
-        
 
-        Double rand[] = DataFile.readFloatArray(filePath);
-        SystemInfo fullInfo = new SystemInfo();
+        //Cria entidade da classe simulador.
+        Simulator simulator = new Simulator();
 
-        fullInfo.fillTsTec(rand);
-        fullInfo.completeInfo();
+        //Roda simulação
+        simulator.runSimulation(fileDirecctory, servitors);
 
-        //TODO Atualizar Rand para ter 1050 entradas e desconsiderar as 50 primeiras
-        //TODO Implementar repetição com sementes diferentes (130)
-        //TODO Calcular média de médias
-        //TODO Calcular desvio padrão
-
-
-        // fullInfo.printInfo();
-        fullInfo.printInfoRounded();
-
-        // Float ts[] = DataFile.getTimeOfService(rand);
-
-        // for (Float item : rand) {
-            
-        //     System.out.println(item);
-        // }
-
-        // for (int i = 0; i < 10; i++) {
-        //     System.out.println(rand[i]);
-        // }
-
-        // for (Float item : ts) {
-        //     System.out.println(item);
-        // }
-
+        //Salva resultados para uma nova pasta dentro do diretório ./results/
+        DataFile.saveResults(simulator);
 
     }
+
 }
