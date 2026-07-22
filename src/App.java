@@ -7,7 +7,7 @@ public class App {
     //Arquivos gerados por código em C, como feito em aula
     //Sementes definidas no arquivo 'keys.data' obtidas da página https://www.math.uchicago.edu/~luis/allprimes.html
     //Código C compilado e executado a partir do arquivo shell'generate_random_numbers.sh' (Funciona somente em Linux)
-    private static String fileDirecctory = "./resources/data/";
+    private static String fileDirectory = "./resources/data/";
     //Define o número de servidores no sistema
     private static Integer servitors = 1;
     public static void main(String[] args) throws Exception {
@@ -16,7 +16,7 @@ public class App {
         Simulator simulator = new Simulator();
 
         //Roda simulação
-        simulator.runSimulation(fileDirecctory, servitors);
+        simulator.runSimulation(fileDirectory, servitors);
 
         //Salva resultados para uma nova pasta dentro do diretório ./results/
         DataFile.saveResults(simulator);

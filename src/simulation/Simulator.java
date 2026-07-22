@@ -32,7 +32,7 @@ public class Simulator {
     }
 
     
-
+    
     public void runSimulation(String fileDirectory, Integer servitors) throws Exception{
         //Cria lista de arrays de números randômicos
         List<Double[]> randList = fetchRandNumbers(fileDirectory);

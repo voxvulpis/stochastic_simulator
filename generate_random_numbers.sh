@@ -8,7 +8,7 @@
 
 filename="./resources/data/keys.data"
 
-gcc ./resources/cCode/rand.c -o ./../data/rand
+gcc ./resources/cCode/rand.c -o ./resources/data/rand
 
 declare -i i=1
 

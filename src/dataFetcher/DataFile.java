@@ -3,14 +3,11 @@ package dataFetcher;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import simulation.Simulator;
 import systemData.DataStructure;
 import systemData.SystemInfo;
@@ -84,26 +81,28 @@ public class DataFile {
 
     }
 
+    //Método para gravação dos resultados em tabelas CSV
     public static void saveResults(Simulator simulator){
         Path path = mkDir();
         Integer index = 0;
 
+        //Stringbuilder para estatísticas agregadas
         StringBuilder simulatorStatsStrBuilder = new StringBuilder();
         simulatorStatsStrBuilder.append("Tempo Médio de Serviço");
         simulatorStatsStrBuilder.append(",");
-        simulatorStatsStrBuilder.append("Devio Padrão Serviço");
+        simulatorStatsStrBuilder.append("Desvio Padrão Serviço");
         simulatorStatsStrBuilder.append(",");
         simulatorStatsStrBuilder.append("Tempo Médio de Fila");
         simulatorStatsStrBuilder.append(",");
-        simulatorStatsStrBuilder.append("Devio Padrão Fila");
+        simulatorStatsStrBuilder.append("Desvio Padrão Fila");
         simulatorStatsStrBuilder.append(",");
         simulatorStatsStrBuilder.append("Tempo Médio no Sistema");
         simulatorStatsStrBuilder.append(",");
-        simulatorStatsStrBuilder.append("Devio Padrão Sistema");
+        simulatorStatsStrBuilder.append("Desvio Padrão Sistema");
         simulatorStatsStrBuilder.append(",");
         simulatorStatsStrBuilder.append("Tempo Médio de Inatividade");
         simulatorStatsStrBuilder.append(",");
-        simulatorStatsStrBuilder.append("Devio Padrão Inatividade");
+        simulatorStatsStrBuilder.append("Desvio Padrão Inatividade");
         simulatorStatsStrBuilder.append('\n');
 
         simulatorStatsStrBuilder.append(
@@ -113,14 +112,15 @@ public class DataFile {
         );
         
 
+        //Salva estatísticas agregadas
         try {
             Files.write(Paths.get(path.toString(), "simulator_stats.csv"), simulatorStatsStrBuilder.toString().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //Stringbuilder para tabela de estatísticas de cada simulação
         StringBuilder statsStrBuilder = new StringBuilder();
-            
         statsStrBuilder.append("Tempo Médio de Serviço");
         statsStrBuilder.append(",");
         statsStrBuilder.append("Tempo Médio de Fila");
@@ -133,8 +133,9 @@ public class DataFile {
 
         for (SystemInfo table : simulator.getInfo()) {
             index++;
-            StringBuilder stringBuilder = new StringBuilder();
 
+            //Stringbuilder para tabelas de cada simulação
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("randTEC");
             stringBuilder.append(',');
             stringBuilder.append("randTS");
@@ -156,6 +157,8 @@ public class DataFile {
             stringBuilder.append("Tempo Inativo do Servidor");
             stringBuilder.append('\n');
 
+            //Chama método que retorna todos os valores de uma simulação em forma de um array,
+            //Depois converte em uma string com valores separados por vírgulas
             for (DataStructure line : table.getDataStructureArray()) {
                 stringBuilder.append(
                     line.getAll().stream().map(
@@ -164,13 +167,15 @@ public class DataFile {
                 );
                 stringBuilder.append('\n');
             }
+            //Salva tabela em arquivo CSV
             try {
                 Files.write(Paths.get(path.toString(), "table_" + index + ".csv"), stringBuilder.toString().getBytes());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             
-
+            //Chama método que retorna as estatísticas de uma simulação em forma de um array,
+            //Depois converte em uma string com valores separados por vírgulas
             statsStrBuilder.append(
                     table.getAll().stream().map(
                         String::valueOf).collect(Collectors.joining(",")
@@ -180,6 +185,7 @@ public class DataFile {
             
         }
 
+        //Salva as estatísticas da cada simulação em uma única tabela CSV
         try {
             Files.write(Paths.get(path.toString(), "tables_stats.csv"), statsStrBuilder.toString().getBytes());
         } catch (Exception e) {
@@ -189,6 +195,7 @@ public class DataFile {
 
     }
 
+    //Método para criação de diretório
     public static Path mkDir(){
         Path path = Paths.get("results");
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
@@ -204,24 +211,4 @@ public class DataFile {
         return path2;
     }
 
-
-    // public static Float[] getTimeOfService(Float rand[]){
-    //     Float ts[] = new Float[rand.length];
-    //     for(Integer i = 0; i < rand.length; i++) {
-    //         Double dValue = Math.log(rand[i]);
-    //         ts[i] = (0 - dValue.floatValue())/8;
-    //     }
-
-    //     return ts;
-    // }
-
-    // public static Float[] getTimeOfArrival(Float rand[]){
-    //     Float tc[] = new Float[rand.length];
-    //     for(Integer i = 0; i < rand.length; i++) {
-    //         Double dValue = Math.log(rand[i]);
-    //         tc[i] = (0 - dValue.floatValue())/2;
-    //     }
-
-    //     return tc;
-    // }
 }
